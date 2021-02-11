@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <section class="panel panel-default panel-body">
+        <h1><em>Error 403: You are not allowed to access this page.</em></h1>
+
+        <hr>
+
+        <p class='lead'>
+            {{ message|raw }}
+
+            <br>
+            EGI checkin : <a class="btn btn-primary " href="{{ path('home') }}"><span
+                        class='glyphicon glyphicon-log-in'> Home</span></a>
+
+
+        </p>
+        <br>
+
+        <div> For more information, please contact us at &nbsp;&nbsp;&nbsp;
+            <a href="mailto:{{ webMasterMail }}">
+                <span class='label label-inverse'>{{ webMasterMail }}</span></a>
+            &nbsp;&nbsp;
+
+        </div>
+
+    </section>
+{% endblock %}

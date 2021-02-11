@@ -1,0 +1,6 @@
+
+<form method="post" action="{{ path('documents_make_unprotected', {'id': document.id}) }}" onsubmit="return confirm('Are you sure you want to disable protection for this document?');">
+    <input type="hidden" name="_method" value="DISABLE">
+    <input type="hidden" name="_token" value="{{ csrf_token('disable' ~ document.id) }}">
+    <button class="btn btn-success" value="Private" aria-describedBy="unprotect-hint"><abbr title="Click to disable protection">Private</abbr></button>
+</form>

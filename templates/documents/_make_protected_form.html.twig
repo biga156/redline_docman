@@ -1,0 +1,14 @@
+{% if app.request.attributes.get('_route') == 'documents_public'%}
+
+    <form method="post" action="{{ path('documents_make_protected', {'id': document.id}) }}" onsubmit="return confirm('Are you sure you want to enable protection for this document?');">
+        <input type="hidden" name="_method" value="ENABLE">
+        <input type="hidden" name="_token" value="{{ csrf_token('enableP' ~ document.id) }}">
+        <button class="btn btn-info" value="Public" aria-describedby="protect-hint"><abbr title="Click to enabl protection">Public</abbr></button>
+    </form>
+{% else %}
+     <form method="post" action="{{ path('documents_make_protected', {'id': document.id}) }}" onsubmit="return confirm('Are you sure you want to enable protection for this document?');">
+        <input type="hidden" name="_method" value="ENABLE">
+        <input type="hidden" name="_token" value="{{ csrf_token('enable' ~ document.id) }}">
+        <button class="btn btn-info" value="Public" aria-describedby="protect-hint"><abbr title="Click to enabl protection">Public</abbr></button>
+    </form>
+{% endif %}

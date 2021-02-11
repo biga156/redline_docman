@@ -1,0 +1,282 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+{% if app.request.attributes.get('_route') == 'documents_public' %}	
+	List of all public documents
+{% else %}
+	List of my documents
+{% endif %}
+
+{% endblock %}
+
+{% block body %}
+
+{% if app.request.attributes.get('_route') == 'documents_public' %}	
+	<h1>
+		Public documents
+	</h1>
+	{% else %}
+	<h1>
+		My documents
+	</h1>
+	{% endif %}
+	<div>
+		{% if is_granted('ROLE_USER') %}
+			<button class="btn btn-primary"><a href="{{ path('documents_new') }}">Create new</a></button>
+		{% else %}
+			<button class="btn btn-primary" ><a href="{{ path('documents_limited_new') }}">Create new</a></button>
+		{% endif %}
+	</div>
+	<br>
+
+
+
+	{# NOTE:aria descriptions: #}<div id="orderby-hint" aria-hidden="false" hidden="true"> Click to reorder</div>
+	<div id="select_filter-hint" aria-hidden="false" hidden="true">Choose from the options</div>
+	<div id="toggle_column-hint" aria-hidden="false" hidden="true">Click to enable or disable this column</div>
+	<div id="protect-hint" aria-hidden="false" hidden="true">Click to enable protection</div>
+	<div id="unprotect-hint" aria-hidden="false" hidden="true">Click to disable protection</div>
+	{# NOTE:end of aria descriptions: #}
+	<div>
+        <abbr title="Here you can enable or disable the columns">Toggle column:</abbr>
+		<button class="btn btn-link toggle-vis" data-column="0" aria-describedBy="toggle_column-hint">Label</button> -
+		<button class="btn btn-link toggle-vis" data-column="1" aria-describedBy="toggle_column-hint">Keywords</button> - 
+		<button class="btn btn-link toggle-vis" data-column="2" aria-describedBy="toggle_column-hint">Audio note</button> - 
+		<button class="btn btn-link toggle-vis" data-column="3" aria-describedBy="toggle_column-hint">Validity</button> - 
+		<button class="btn btn-link toggle-vis" data-column="4" aria-describedBy="toggle_column-hint">Createc</button> - 
+		<button class="btn btn-link toggle-vis" data-column="5"aria-describedBy="toggle_column-hint">Protection</button>
+		<button class="btn btn-link toggle-vis" data-column="5"aria-describedBy="toggle_column-hint">Alarm</button>
+    </div>
+	<table class="table display compact"  id="lstindex" style="table-layout: auto">
+		<thead>
+			<tr class="table-primary">
+
+				<th>
+					<abbr  title="Click to reorder">Label</abbr>
+					<input type="text" id="lstindex0" placeholder="Filter By Label">
+				</thstyle=>
+
+				<th>
+
+					<abbr title="Click to reorder">Keywords</abbr>
+					<select id="lstindex1" aria-describedby="select_filter-hint">
+						<option value="">All</option>
+						{% for tag in allTags %}
+							<option>{{tag.label}}</option>
+						{% endfor %}
+					</select>
+				</th>
+				<th>
+
+					<abbr title="Click to reorder">Audio note</abbr>
+					<input type="text" id="lstindex2" placeholder="Filter By Audio" disabled="disabled">
+				</th>
+				<th>
+
+					<abbr title="Click to reorder">Validity</abbr>
+					<select id="lstindex3" aria-describedby="select_filter-hint">
+						<option value="">All</option>
+						<option value="Active">Active</option>
+						<option value="Expired">Expired</option>
+					</select>
+				</th>
+				<th>
+
+					<abbr title="Click to reorder">Created</abbr>
+					<input type="text" id="lstindex4" placeholder="Filter By Date">
+				</th>
+				<th>
+
+					<abbr title="Click to reorder">Protection</abbr>
+					<select id="lstindex5" aria-describedby="select_filter-hint">
+						<option value="">All</option>
+						<option value="Private">Private</option>
+						<option value="Public">Public</option>
+					</select>
+				</th>
+				<th>
+
+					<abbr title="Click to reorder">Alarm</abbr>
+					<select id="lstindex6" aria-describedby="select_filter-hint">
+						<option value="">All</option>
+						<option value="Active">Active</option>
+						<option value="Inactive">Inactive</option>
+					</select>
+				</th>
+
+				{% if is_granted('ROLE_ADMIN') %}
+					<th>
+
+						<abbr title="Click to reorder">User</abbr>
+						<input type="text" id="lstindex7" placeholder="Filter By User">
+					</th>
+				{% endif %}
+
+				<th>delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for document in documents %}
+				<div id="validity_date-hint" aria-hidden="false" hidden="true">{{ document.validity ? document.validity|date('Y-m-d') : '' }}. The documents owner can change it in the documents edit page.</div>
+				<div id="alarm_date-hint" aria-hidden="false" hidden="true">{{ document.alarm ? document.validity|date('Y-m-d') : '' }}. The documents owner can change it in the documents edit page.</div>
+				<tr>
+
+					<td>
+						<a href="{{path('documents_show',{id: document.id})}}">
+							{{ document.label }}({{document.files | length}} files)) </a>
+					</td>
+					<td>
+						{% for tag in document.tags %}
+							<a href="{{path('tags_show', {id:tag.id})}}" aria-describedby="tag_link-hint">
+								<abbr title="See all documents in this tag">{{tag.label}}</abbr>
+							</a><br>
+						{% endfor %}
+					</td>
+					
+										
+					<td>
+					{% if document.audioNote != null %}
+					<audio controls>
+						 <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/wav">
+						  <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/webm">
+						  <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/mp3">
+						  <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/ogg">
+						  <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/mpeg">
+						 {#<source src="{{asset(document.audioNote)}}" type="audio/wav">#}
+  						
+					Your browser does not support the audio element.
+					</audio>
+					
+					{% else %}
+					n/a
+					{% endif %}
+					</td>
+					<td>
+
+						{% if document.validity<= "now"|date('Y-m-d') %}
+							<button class="btn btn-primary" aria-describedby="validity_date-hint" value="Active">
+								<abbr title="{{ document.validity ? document.validity|date('Y-m-d') : '' }} - The document/'s owner can change it in the documents edit page.">Active</abbr>
+							</button>
+
+							{#{{ document.validity ? document.validity|date('Y-m-d') : '' }}#}
+						{% else %}
+							<button class="btn btn-secondary" aria-describedby="validity_date-hint" value="Expired">
+								<abbr title="{{ document.validity ? document.validity|date('Y-m-d') : '' }} - The document/'s owner can change it in the documents edit page.">Expired</abbr>
+							</button>
+						{% endif %}
+
+					</td>
+					<td><button class="btn btn-link">{{ document.createdAt ? document.createdAt|date('Y-m-d H:i:s'): '' }}</button></td>
+					<td>
+					{% if document.protection %}
+						{% if app.user==document.user %}
+							{{ include('documents/_make_unprotected_form.html.twig') }}
+						{% else %}
+
+							<button class="btn btn-link">{{ document.protection ? 'Private' : 'Public' }}</button>
+						{% endif %}
+					{% else %}
+						{% if app.user==document.user %}
+							{{ include('documents/_make_protected_form.html.twig') }}
+						{% else %}
+							<button class="btn btn-link">{{ document.protection ? 'Private' : 'Public' }}</button>
+						{% endif %}
+					{% endif %}
+					</td>
+					<td>
+					{% if document.alarm<= document.createdAt %}
+							<button class="btn btn-primary" value="Inactive">
+								<abbr title="Inactive">Inactive</abbr>
+							</button>
+						{% else %}
+							<button class="btn btn-info" aria-describedby="alarm_date-hint" value="Active">
+								<abbr title="{{ document.alarm ? document.alarm|date('Y-m-d') : '' }}">Active</abbr>
+							</button>
+						{% endif %}
+					
+					
+					</td>
+					
+					{% if is_granted('ROLE_ADMIN') %}
+						{# *the owner of the document #}
+						{% if document.user %}
+
+							<td>
+							<a href="{{path('users_show',{id: document.user.id})}}">
+							{{ document.user.username }}</a>
+							</td>
+						{% else %}
+							<td>DISABLED USER</td>
+						{% endif %}
+					{% endif %}
+					{% if document.user==app.user or is_granted('ROLE_ADMIN') %}
+						{% if app.request.attributes.get('_route') == 'documents_public' %}
+						<td>
+							{{ include('documents/_deletePub_form.html.twig') }}
+						</td>
+						{% else %}
+								<td>
+							{{ include('documents/_delete_form.html.twig') }}
+						</td>
+						{% endif %}
+					{% else %}
+						<td>
+							<button class="btn btn-primary" disabled="disabled">Delete</button>
+						</td>
+					{% endif %}
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="9">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		
+<tfoot>
+			<tr class="table-primary">
+
+				<th>
+					Label
+				</th>
+				<th>
+					Keywords
+				</th>
+				<th>
+				Audio note
+				</th>
+				<th>
+					Validity
+				</th>
+				<th>
+					Created
+				</th>
+				<th>
+					Protection
+				</th>
+				<th>
+					Alarm
+				</th>
+				{% if is_granted('ROLE_ADMIN') %}
+					<th>
+						User
+					</th>
+				{% endif %}
+
+				<th>delete</th>
+			</tr>
+		</tfoot>
+		
+	</table>
+	{% if is_granted('ROLE_USER') %}
+		<button class="btn btn-primary"><a href="{{ path('documents_new') }}">Create new</a></button>
+	{% else %}
+		<button class="btn btn-primary"><a href="{{ path('documents_limited_new') }}">Create new</a></button>
+	{% endif %}
+{% endblock %}
+{% block javascripts %}
+	<script>{% include "_scripts/TableFilter.js" %}</script>
+	<script>{% include "_scripts/DataTables/jquery.dataTables.min.js" %}</script>
+	<script>{% include "_scripts/DataTables/dataTable.js" %}</script>
+	
+{% endblock %}
