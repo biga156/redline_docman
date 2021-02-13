@@ -14,14 +14,15 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
-use Symfony\Component\Validator\Constraints\File;
 
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class DocumentsType extends AbstractType
 {
@@ -34,13 +35,14 @@ class DocumentsType extends AbstractType
                 'required' => true,
                 'label' => 'Label (*)'
             ])
-            ->add('note' , TextType::class, [
+            ->add('note' , TextareaType::class, [
                 'required' => false,
                 'label' => 'Note (facultativ)'
             ])
             ->add('protection')
             ->add('validity', DateType::class, [
                 'required' => false,
+                'help' => 'In this version it is just an informative feature. ',
                 'label' => 'Validity (If you do not change it, it is inactive by default.)',
                 'widget' => 'single_text',
                 'data' => new \DateTime('2050-01-01'),
@@ -48,7 +50,8 @@ class DocumentsType extends AbstractType
             ])
             ->add('alarm', DateTimeType::class, [
                 'disabled' => false,
-                'label' => 'Alarm (facultativ)',
+                'help' => 'In this version it is just an informative feature. ',
+                'label' => 'Alarm (If you do not change it, it is inactive by default.)',
                 'widget' => 'choice',
                 'data' => new \DateTime('now-1 days'),
                 'view_timezone' => 'Europe/Paris',
@@ -58,12 +61,14 @@ class DocumentsType extends AbstractType
            
                
             ->add('audioNote', FileType:: class, [
+                'label'=>'Audio note file (mp3/ogg/wav) ',
+                'help'=>'Upload a max 8MB audio file. To record an audio note, you can use our audio recorder too',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '8M',
-                       //TODO: I it a   problem with the default mimetype validation of symfony?
+                       //TODO: Is it a   problem with the default mimetype validation of symfony?
                         /*'mimeTypes' =>[
                            "audio/mpeg",
                            "audio/ogg",
@@ -82,11 +87,10 @@ class DocumentsType extends AbstractType
             //?dynamic search bar?
             ->add('tags', EntityType::class, array(
                 'class' => Tags::class,
-                'label'=>'Keywords',
                 'choice_label' => 'label', 
                 'multiple'=>true,
                 'expanded' => false,
-                'label' => 'Tags',
+                'label' => 'Keywords',
                 'choice_value'=> 'id',
                
             ))

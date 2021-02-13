@@ -112,7 +112,7 @@ class DocumentsController extends AbstractController
                 } catch (FileException $e) {
                     
                 }
-                //dd($newFilename);
+               
                 $document->setAudioNote($newFilename);
             }
 

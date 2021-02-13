@@ -71,15 +71,19 @@ class FilesController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            //$file = $form->get('name')->getData();
-            //dd($form);
+         
             $doc = $file->getDocuments()->getId();
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($file);
             $entityManager->flush();
 
-            return $this->redirectToRoute('documents_show', ['id' => $doc]);
+            if($_POST['submit']=='add'){
+                return $this->redirectToRoute('files_new', ['doc'=>$doc]);
+            }else{
+                return $this->redirectToRoute('documents_show', ['id' => $doc]);
+            }
+           
         }
         if (isset($_GET['doc'])) {
             // * user mode

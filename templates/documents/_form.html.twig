@@ -1,44 +1,33 @@
 {% if is_granted('ROLE_USER') %}
-
-	{{ form_start(form) }}
-	{% block stylesheet %}
-		<link href="{{asset('/js/dictaphone/styles/app.css')}}" rel="stylesheet" type="text/css">
-		
-
-	{% endblock %}
-
-	
-	{{ form_widget(form) }}
-
-	{% include "documents/_dictaphone_buttons.html.twig" %}
-	<br>
-	<p>
-		<button class="btn" data-button onclick="location.href='{{ path('documents_new') }}'" data-token="{{ csrf_token('get') }}">
-			{{ button_label|default('Save and add files') }}
-		</button>
-	</p>
-
-
-	{{ form_end(form) }}
-	{% block javascript  %}
-		<script src="{{asset('/js/dictaphone/scripts/app.js')}}"></script>
-	{% endblock %}
+    {{ form_start(form) }}
+     {% block stylesheet %}
+        <link href="{{ asset('/js/dictaphone/styles/app.css') }}" rel="stylesheet" type="text/css"/>
+    {% endblock %}
+    {{ form_widget(form) }}
+    <p><button class="btn btn-success" onclick="location.href='{{ path('documents_new') }}'" data-token="{{ csrf_token('get') }}">
+            {{ button_label|default('Save and add files') }}
+        </button></p>
+    <div class="card text-center">
+    <div class="card-header bg-primary" ><h3> Audio recorder</h3></div>
+    <div class="card-body">
+    {% include 'documents/_dictaphone_buttons.html.twig' %}
+    </div>
+    </div>
+    <br/>
+  
+    {{ form_end(form) }}
+   
+    {% block javascript %}
+        <script src="{{ asset('/js/dictaphone/scripts/app.js') }}"></script>
+    {% endblock %}
 {% else %}
-	{{ form_start(form) }}
-
-
-	{{ form_widget(form) }}
-
-	<br>
-	<p>
-		<button class="btn btn-success">
-			{{ button_label|default('Save and add files') }}
-		</button>
-	</p>
-
-	{{ form_end(form) }}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <br/>
+    <p><button class="btn btn-success">
+            {{ button_label|default('Save and add files') }}
+        </button></p>
+    {{ form_end(form) }}
 {% endif %}
 
-{% block javascripts %}
-
-{% endblock %}
+{% block javascripts %}{% endblock %}

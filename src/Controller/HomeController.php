@@ -13,6 +13,9 @@ class HomeController extends AbstractController
      */
     public function index()
     {
+        $this->addFlash('notice', 'Attention! The site is currently in beta and is constantly being developed.
+        Errors can happen all the time, but I try to leave them operational after work :)');
+      
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);

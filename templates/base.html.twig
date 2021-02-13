@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en-en">
 <html>
 	<head>
 		<meta charset="UTF-8"/>
@@ -7,17 +8,18 @@
 				Welcome!
 			{% endblock %}
 		</title>
-			
+					
 			<link href="{{asset('/styles/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css">
 			<link href="{{asset('/styles/darkly/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
 			
+
 		{# NOTE: social network icons:
 			<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"> 
 			<script src="https://kit.fontawesome.com/c1d2705669.js" crossorigin="anonymous"></script>#}
 		</head>
 		<body>
 			{% include 'shared/header.html.twig' %}
-
+ 			
 			<div class="container"> {% block body %}{% endblock %}
 				</div>
 				{#<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>#}
@@ -26,7 +28,8 @@
 				
 				<script src="{{asset('js/jquery-3.5.1.js')}}"></script>
 				<script src="{{asset('styles/bootstrap-4.5.3/dist/js/bootstrap.min.js')}}"></script>
-												
+				
+				
 				{# NOTE: "bsCustom-file-input" plugin injection (show uploaded file name in form placeholder): #}
 				{# https://www.npmjs.com/package/bs-custom-file-input #}
 				<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>

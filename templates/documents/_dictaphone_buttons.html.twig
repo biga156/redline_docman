@@ -1,4 +1,7 @@
-
+{% block stylesheet %}
+        <link href="{{ asset('/js/dictaphone/styles/app.css') }}" rel="stylesheet" type="text/css"/>
+    {% endblock %}
+	<div role="contentinfo" aria-label="info">You can use our voice recorder to record a voice memo. At the end of the recording, you can listen to the recording, delete it and record it again.If the recording is correct, download it with the download button and upload in the audio note menu.</div>
 <section class="main-controls">
 		<canvas class="visualizer" height="60px"></canvas>
 		<div id="buttons">
