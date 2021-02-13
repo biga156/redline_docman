@@ -1,79 +1,196 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Users
+{% block title %}
+	Users
 {% endblock %}
 
 {% block body %}
-	<h1>{{user.username}}'s details:</h1>
+	{# NOTE:aria descriptions: #}
+	<div id="orderby-hint" aria-hidden="false" hidden="true">
+		Click to reorder
+	</div>
+	<div id="info_button-hint" aria-hidden="false" hidden="true">
+		Info button
+	</div>
+	<div id="doc_button-hint" aria-hidden="false" hidden="true">
+		Click to see all of her documents
+	</div>
+	<div id="email_button-hint" aria-hidden="false" hidden="true">
+		Click to send email. An external application opens.
+	</div>
+	{# NOTE:end of aria descriptions: #}
+	<br>
+	<h1 class="text-center">
+		User's details:
+	</h1>
+	<br>
+	<div class="card">
+		<div class="card-header text-center">
+			<h2>
+				{{user.username}}
+			</h2>
+		</div>
+		<div class="card-body">
+			<table class="table">
+				<tbody>
+					<tr>
+						<th>
+							<h6>
+								Id
+							</h6>
+						</th>
+						<td>
+							<button class="btn btn-secondary" aria-describedby="info_button-hint">
+								{{ user.id }}
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<th>
+							<h6>
+								Username
+							</h6>
+						</th>
+						<td>
+							<button class="btn btn-secondary" aria-describedby="info_button">
+								{{ user.username }}
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<th>
+							<h6>
+								Documents
+							</h6>
+						</th>
+						<td>
+							<button class="btn btn-primary" aria-describedby="doc_button-hint">
+								<abbr title="Click to see all of her documents">
+									<a href="{{ path('documents_index',{u:user.id}) }}">
+										View the documents
+										<br>
+										(
+										{{user.documents | length}}
+										document(s))
+									</a>
+								</abbr>
+							</button>
+						</td>
+					</tr>
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Id</th>
-				<td>{{ user.id }}</td>
-			</tr>
-			<tr>
-				<th>Username</th>
-				<td>{{ user.username }}</td>
-			</tr>
-			<tr>
-				<th>Roles</th>
-				{%if(user.roles==["ROLE_ADMIN"])%}
-					{#<td>{{ user.roles ? user.roles|json_encode : '' }}</td>#}
-					<td>Administrator</td>
-					{%else%}
-					<td>User</td>
-					{%endif%}</tr>
-			</tr>
-			<tr>
-				<th>Password</th>
-				{#<td>{{ user.password }}</td>#}
-				<td>********</td>
-			</tr>
-
-			<tr>
-				<th>Role</th>
-				<td>
-					{# loop the roles #}
-					{% for role in user.roles %}
-						{% if role == "ROLE_USER" %}
-							User
-						{% elseif role == "ROLE_USER_TEMP" %}
-							Non verified user
-						{% elseif role == "ROLE_ADMIN" %}
-							Administrator
-						{% endif %}
-					{% endfor %}
-				</td>
-			</tr>
-			<tr>
-				<th>CreatedAt</th>
-				<td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-			</tr>
-			<tr>
-				<th>Email</th>
-				<td>{{ user.email }}</td>
-			</tr>
-			<tr>
-				<th>FirstName</th>
-				<td>{{ user.firstName }}</td>
-			</tr>
-			<tr>
-				<th>LastName</th>
-				<td>{{ user.lastName }}</td>
-			</tr>
-			<tr>
-				<th>BirthDate</th>
-				<td>{{ user.birthDate ? user.birthDate|date('Y-m-d') : '' }}</td>
-			</tr>
-		</tbody>
-	</table>
+					<tr>
+						<th>
+							<h6>
+								Role
+							</h6>
+						</th>
+						<td>
+							{# loop the roles #}
+							{% for role in user.roles %}
+								{% if role == "ROLE_USER_DISABLED" %}
+									<button class="btn btn-secondary" aria-describedby="info_button-hint">
+										Inactive user
+									</button>
+								{% elseif role == "ROLE_USER_TEMP" %}
+									<button class="btn btn-secondary" aria-describedby="info_button-hint">
+										Non verifieduser
+									</button>
+								{% elseif role == "ROLE_USER" %}
+									<button class="btn btn-secondary" aria-describedby="info_button-hint">
+										User
+									</button>
+								{% elseif role == "ROLE_ADMIN" %}
+									<button class="btn btn-secondary" aria-describedby="info_button-hint">
+										Administrator
+									</button>
+								{% endif %}
+							{% endfor %}
+						</td>
+					</tr>
+					<tr>
+						<th>
+							<h6>
+								CreatedAt
+							</h6>
+						</th>
+						<td>
+							<button class="btn btn-secondary" aria-describedby="info_button-hint">
+								{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<th>
+							<h6>
+								Email
+							</h6>
+						</th>
+						<td>
+							<button class="btn btn-primary" aria-describedby="email_button-hint">
+								<abbr title="Clict to send email. An external application opens.">
+									<email>
+										<a href="mailto:{{ user.email }}">
+											{{ user.email }}
+										</a>
+									</email>
+								</abbr>
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<th>
+							<h6>
+								First Name
+							</h6>
+						</th>
+						<td>
+							<button class="btn btn-secondary" aria-describedby="info_button-hint">
+								{{ user.firstName }}
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<th>
+							<h6>
+								Last Name
+							</h6>
+						</th>
+						<td>
+							<button class="btn btn-secondary" aria-describedby="info_button-hint">
+								{{ user.lastName }}
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<th>
+							<h>
+								BirthDate
+							</h>
+						</th>
+						<td>
+							<button class="btn btn-secondary" aria-describedby="info_button-hint">
+								{{ user.birthDate ? user.birthDate|date('Y-m-d') : '' }}
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 	<div>
-	<button class="btn btn-primary"><a href="{{ path('users_index') }}">back to list  </a></button>
-	<button class="btn btn-secondary"><a href="{{ path('users_edit_admin', {'id': user.id}) }}">  edit</a></button>
+		<button class="btn btn-primary">
+			<a href="{{ path('users_index') }}">
+				back to list
+			</a>
+		</button>
+		<button class="btn btn-secondary">
+			<a href="{{ path('users_edit_admin', {'id': user.id}) }}">
+				edit
+			</a>
+		</button>
 	</div>
 	{% if(app.user.roles==["ROLE_ADMIN"] and user.roles!=["ROLE_ADMIN"]) %}
-		{#{{ include('users/_make_archiv_form.html.twig') }}#}	
+		{#{{ include('users/_make_archiv_form.html.twig') }}#}
 		{{ include('users/_delete_form.html.twig') }}
-		{% endif %}
-	{% endblock %}
+	{% endif %}
+{% endblock %}

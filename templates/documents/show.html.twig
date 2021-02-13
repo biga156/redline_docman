@@ -20,109 +20,150 @@
 		</td>
 	</table>
 	{#Document's name#}
-	<h1>
+	<br><h1 class="text-center">Document details</h1><br>
+	<div class="card">
+	<button class="btn btn-secondary" aria-describedby="info_button-hint"><div class="card-header text-center">
+	<h2>
 		{{ document.label  }}
-	</h1>
+	</h2>
+	</div></button>
 	{# NOTE: aria descriptions:#}
-		<div id="tag_link-hint" aria-hidden="false" hidden="true">Click to view all documents in this tag</div>
+		<div id="tag_link-hint" aria-hidden="false" hidden="true">Click to view similar documents in this tag</div>
+		<div id="file_list-hint" aria-hidden="false" hidden="true">Click to view all files in the document</div>
+		<div id="info_button-hint" aria-hidden="false" hidden="true">Info button</div>
+		<div id="user_button-hint" aria-hidden="false" hidden="true">Click to visit the user's details page</div>
 	{# end of aria descriptions#}
+	<div class="card-body">
 	<table class="table">
 		<tbody>
 			<tr>
-				<th>
+				<th><h6>
 					Files
-				</th>
+				</h6></th>
 				<td>
 					
-					<a href="{{ path('files_index',{doc:document.id}) }}">View the files ({{document.files | length}} files)</a>
+					<button class="btn btn-primary" aria-describedby="file_list-hint"><abbr title="Click to see files in the document"><a href="{{ path('files_index',{doc:document.id}) }}">View the files ({{document.files | length}} files)</a></abbr></button>
 					
 				</td>
 			</tr>
 			<tr>
-				<th>
+				<th><h6>
 					Tags
-				</th>
+				</h6></th>
 				<td>
 				{% for tag in document.tags %}
-					<a href="{{path('tags_show', {id:tag.id})}}" aria-describedBy="tag_link-hint"><abbr title="See all documents in this tag">{{tag.label}}</abbr></a><br>
+					<button class="btn btn-primary"><abbr title="Click to see all similar document with this tag"><a href="{{path('tags_show', {id:tag.id})}}" aria-describedBy="tag_link-hint"><abbr title="See all documents in this tag">{{tag.label}}</abbr></a></abbr></button><br>
 				{% endfor %}
 				
 				</td>
 			</tr>
 			<tr>
-				<th>
+				<th><h6>
 					Note
-				</th>
+				</h6></th>
 				<td>
-					{{ document.note }}
+					<button class="btn btn-secondary" aria-describedby="info_button-hint">{{ document.note }}</button>
 				</td>
 			</tr>
 			<tr>
-				<th>
+				<th><h6>
 					Protection
-				</th>
+				</h6></th>
 				<td>
-					{{ document.protection ? 'Yes' : 'No' }}
+					{% if document.protection %}
+						{% if app.user==document.user %}
+							{{ include('documents/_make_unprotected_form.html.twig') }}
+						{% else %}
+
+							<button class="btn btn-link">{{ document.protection ? 'Private' : 'Public' }}</button>
+						{% endif %}
+					{% else %}
+						{% if app.user==document.user %}
+							{{ include('documents/_make_protected_form.html.twig') }}
+						{% else %}
+							<button class="btn btn-link">{{ document.protection ? 'Private' : 'Public' }}</button>
+						{% endif %}
+					{% endif %}
+					
+				
 				</td>
 			</tr>
 			<tr>
-				<th>
+				<th><h6>
 					Validity
-				</th>
+				</h6></th>
 				<td>
-					{{ document.validity ? document.validity|date('Y-m-d') : '' }}
+					<button class="btn btn-secondary" aria-describedby="info_button-hint">{{ document.validity ? document.validity|date('Y-m-d') : '' }}</button>
 				</td>
 			</tr>
 			<tr>
-				<th>
+				<th><h6>
 					Alarm
-				</th>
+				</h6></th>
 				<td>
-					{{ document.alarm ? document.alarm|date('Y-m-d H:i:s') : '' }}
+					<button class="btn btn-secondary" aria-describedby="info_button-hint">{{ document.alarm ? document.alarm|date('Y-m-d H:i:s') : '' }}</button>
 				</td>
 			</tr>
 			<tr>
-				<th>
+				<th><h6>
 					AudioNote
-				</th>
+				</h6></th>
 				<td>
-					{{ document.audioNote }}
+					{% if document.audioNote != null %}
+					<audio controls>
+						 <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/wav">
+						  <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/webm">
+						  <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/mp3">
+						  <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/ogg">
+						  <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/mpeg">
+						 {#<source src="{{asset(document.audioNote)}}" type="audio/wav">#}
+  						
+					Your browser does not support the audio element.
+					</audio>
+					
+					{% else %}
+					<button class="btn btn-secondary" aria-describedby="info_button-hint">no audio notes uploaded or recorded</button>
+					{% endif %}
 				</td>
 			</tr>
 
-			<th>
+			<th><h6>
 				CreatedAt
-			</th>
+			</h6></th>
 			<td>
-				{{ document.createdAt ? document.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+				<button class="btn btn-secondary" aria-describedby="info_button-hint">{{ document.createdAt ? document.createdAt|date('Y-m-d H:i:s') : '' }}</button></td>
 		</tbody>
 	</tr>
 	{% if is_granted('ROLE_ADMIN') %}
 		{# *the owner of the document #}
 		<tr>
-			<th>
+			<th><h6>
 				Owner
-			</th>
+			</h6></th>
 			{% if document.user %}
 				<td>
-					{{ document.user.username }}
+					<button class="btn btn-primary" aria-describedby="user_button-hint"><abbr title="Click to visit the user\'s page"><a href="{{path('users_show',{id: document.user.id})}}">
+							{{ document.user.username }}</a></abbr></button>
+				
 				</td>
 			{% else %}
 				<td>
-					DISABLED USER
+					DELETED USER
 				</td>
 			{% endif %}
 		</tr>
 	{% endif %}
 </tbody>
 </table>
+</div>
+</div>
 {% if document.user==app.user or is_granted('ROLE_ADMIN')%}
-<button class="btn btn-link"><a href="{{ path( 'documents_edit', { id: document.id } ) }}">Edit documents properties </a></button>
+<button class="btn btn-primary"><a href="{{ path( 'documents_edit', { id: document.id } ) }}">Edit documents properties </a></button>
  or
- <button class="btn btn-link"><a href="{{ path('files_new', { doc:document.id}) }}">Add new file </a></button>
-
-
-
+ <button class="btn btn-primary"><a href="{{ path('files_new', { doc:document.id}) }}">Add new file </a></button>
+ <br>
+<p>
 {{ include('documents/_delete_form.html.twig') }}
+</p>
 {% endif %}
 {% endblock %}

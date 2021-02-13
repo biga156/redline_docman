@@ -38,6 +38,7 @@
 						<option>User</option>
 						<option>Administrator</option>
 						<option>Non verified user</option>
+						<option>Inactiv user</option>
 					</select>
 				</th>
 				<th scope="row">
@@ -96,7 +97,7 @@
 							<td>
 								<a href="{{ path('users_edit_admin', {'id': user.id}) }}">Administrator</a>
 							</td>
-						{% elseif role == "ROLE_USER_DELETED" %}
+						{% elseif role == "ROLE_USER_DISABLED" %}
 							<td>
 								<a href="{{ path('users_edit_admin', {'id': user.id}) }}">Inactiv user</a>
 							</td>
@@ -113,7 +114,7 @@
 					<td>{{ user.lastName }}</td>
 					<td>{{ user.birthDate ? user.birthDate|date('Y-m-d') : '' }}</td>
 					{% for role in user.roles %}
-						{% if role=="ROLE_USER_DELETED" %}
+						{% if role=="ROLE_USER_DISABLED" %}
 							<td>
 								{{ include('users/_make_activ_form.html.twig') }}
 							</td>

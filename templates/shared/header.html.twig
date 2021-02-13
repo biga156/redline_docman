@@ -1,57 +1,84 @@
 {% if is_granted("ROLE_ADMIN") %}
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="{{path('home')}}">Symfony Docman Administrator v0.52</a>
+		<a class="navbar-brand" href="{{path('home')}}">
+			Symfony Docman Administrator v0.58
+		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 	{% elseif is_granted("ROLE_USER") %}
 
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-			<a class="navbar-brand" href="{{path('home')}}">Symfony Docman v0.52</a>
+			<a class="navbar-brand" href="{{path('home')}}">
+				Symfony Docman v0.58
+			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 		{% else %}
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<a class="navbar-brand" href="{{path('home')}}">Symfony Docman v0.52</a>
+				<a class="navbar-brand" href="{{path('home')}}">
+					Symfony Docman v0.58
+				</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 			{% endif %}
+
 			<div class="collapse navbar-collapse" id="navbarColor01">
 				<ul class="navbar-nav mr-auto">
 					{% if app.user %}
+						{% if is_granted("ROLE_USER_TEMP") %}
+							
+						
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{{path('documents_index', {'u': app.user})}}" role="button" aria-haspopup="true" aria-expanded="false">Documents</a>
+							<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{{path('documents_index', {'u': app.user})}}" role="button" aria-haspopup="true" aria-expanded="false">
+								Documents
+							</a>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" href="{{path('documents_index', {'u':app.user.id})}}">My documents</a>
+								<a class="dropdown-item" href="{{path('documents_index', {'u':app.user.id})}}">
+									My documents
+								</a>
 								{% if is_granted("ROLE_USER") %}
-									<a class="dropdown-item" href="{{path('documents_public')}}">All public documents</a>
-								
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="{{path('documents_new')}}">Create a new document</a>
+									<a class="dropdown-item" href="{{path('documents_public')}}">
+										All public documents
+									</a>
+
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="{{path('documents_new')}}">
+										Create a new document
+									</a>
 								{% else %}
 									<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="{{path('documents_limited_new')}}">Create a new document</a>
+									<a class="dropdown-item" href="{{path('documents_limited_new')}}">
+										Create a new document
+									</a>
+									{% endif %}
 								{% endif %}
 							</div>
 						</li>
 
 						{% if app.user.roles == ['ROLE_ADMIN'] %}
 							<li class="nav-item">
-								<a class="nav-link" href="{{ path('files_index') }}">Files</a>
+								<a class="nav-link" href="{{ path('files_index') }}">
+									Files
+								</a>
 							</li>
 
 							<li class="nav-item">
-								<a class="nav-link" href="{{ path('tags_index') }}">Tags</a>
+								<a class="nav-link" href="{{ path('tags_index') }}">
+									Tags
+								</a>
 							</li>
 
 							<li class="nav-item">
-								<a class="nav-link" href="{{ path('users_index') }}">Users</a>
+								<a class="nav-link" href="{{ path('users_index') }}">
+									Users
+								</a>
 							</li>
 						{% endif %}
 					</ul>
-						
+
 				{% endif %}
 
 			</div>
@@ -60,17 +87,27 @@
 			<ul class="nav navbar-nav navbar-right">
 				{% if app.user %}
 					<li>
-						<a class="nav-link" href="{{ path('users_edit',{'id':app.user.id}) }}"><abbr title="Here you can edit your profil">My profil</abbr></a>
+						<a class="nav-link" href="{{ path('users_edit',{'id':app.user.id}) }}">
+							<abbr title="Here you can edit your profil">
+								My profil
+							</abbr>
+						</a>
 					</li>
 					<li>
-						<a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+						<a class="nav-link" href="{{ path('app_logout') }}">
+							Logout
+						</a>
 					</li>
 				{% else %}
 					<li>
-						<a class="nav-link" href="{{ path('app_login') }}">Login</a>
+						<a class="nav-link" href="{{ path('app_login') }}">
+							Login
+						</a>
 					</li>
 					<li>
-						<a class="nav-link" href="{{ path('registration') }}">Register</a>
+						<a class="nav-link" href="{{ path('registration') }}">
+							Register
+						</a>
 					</li>
 				{% endif %}
 			</ul>

@@ -2,6 +2,7 @@
 
 
 {% block title %}
+
 {% if app.request.attributes.get('_route') == 'documents_public' %}	
 	List of all public documents
 {% else %}
@@ -9,6 +10,7 @@
 {% endif %}
 
 {% endblock %}
+
 
 {% block body %}
 
@@ -37,6 +39,7 @@
 	<div id="toggle_column-hint" aria-hidden="false" hidden="true">Click to enable or disable this column</div>
 	<div id="protect-hint" aria-hidden="false" hidden="true">Click to enable protection</div>
 	<div id="unprotect-hint" aria-hidden="false" hidden="true">Click to disable protection</div>
+	<div id="info_button-hint" aria-hidden="false" hidden="true">Info button</div>
 	{# NOTE:end of aria descriptions: #}
 	<div>
         <abbr title="Here you can enable or disable the columns">Toggle column:</abbr>
@@ -70,7 +73,7 @@
 				<th>
 
 					<abbr title="Click to reorder">Audio note</abbr>
-					<input type="text" id="lstindex2" placeholder="Filter By Audio" disabled="disabled">
+					<input type="text" id="lstindex2" placeholder="Filter By " disabled="disabled">
 				</th>
 				<th>
 
@@ -137,7 +140,7 @@
 										
 					<td>
 					{% if document.audioNote != null %}
-					<audio controls>
+					<audio style="width: 80%" controls>
 						 <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/wav">
 						  <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/webm">
 						  <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/mp3">
@@ -149,7 +152,7 @@
 					</audio>
 					
 					{% else %}
-					n/a
+					<button class="btn btn-secondary" aria-describedby="info_button-hint">N/a</button>
 					{% endif %}
 					</td>
 					<td>

@@ -165,7 +165,7 @@ class UsersController extends AbstractController
         ) {
             $entityManager = $this->getDoctrine()->getManager();
             //*changing role: ROLE_USER_DELETED
-            $user->setRoles(['ROLE_USER_DELETED']);
+            $user->setRoles(['ROLE_USER_DISABLED']);
             $entityManager->persist($user);
             $entityManager->flush();
         }

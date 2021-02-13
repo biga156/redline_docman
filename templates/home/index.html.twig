@@ -125,7 +125,7 @@
 						{% elseif role == "ROLE_ADMIN" %}
 							Administrator</h4>
 							</div>
-							<div class="card-body bg-dark-mb-3"">
+							<div class="card-body bg-dark-mb-3">
 								Your options in the site:
 								<div>
 									<p>
@@ -171,31 +171,61 @@
 
 								</ul>
 							</div>
+							{% elseif role == "ROLE_USER_DISABLED" %}
+							Disabled user</h4>
+							</div>
+							<div class="text-center">
+								Only users activ will have access to the site.
+							</div>
+							<div  class="card-body bg-primary">
+								<p class="text-center">
+								<p>
+								Your access has been restricted. This could have happened at your request, due to an irregularity or simply due to an error.
+								</p>
+								If you believe an error has 
+								occurred or would like to request your reactivation, 
+								please contact our <email><a href="mailto:bigastora@gmail.com">
+										administrator.
+									</a></email>.
+								
+								</p>
+								
+								<p>
+									<h3>Note!</h3>
+								</p>
+								<p>
+									Your previously uploaded documents will remain until your account is reactivated or permanently delete
+								</p>
+							</div>
+
 						{% endif %}
 					{% endfor %}
 				</p>
 			</div>
 		{% else %}
-			<h1>
-				Hello visitor! ✅
+		<div class="card">
+			<div class="card-header text-center">
+			<h1 class="text-center">
+				Hello visitor! 
 			</h1>
-			<p>
+			</div>
+			<div class="card-info text-center">
+			<h4>
 				You must log in to use our site!
-			</p>
+			</h4>
+			</div>
+			<div class="card-body">
+			
 			<div>
 				What is this?
-																                    				                    				        (Coming soon)
+						 (Coming soon)
 			</div>
 			<p>
-				If you have any questions, search the
-				<li>
-					<email>
-						<a href="mailto:bigastora@gmail.com">
-							<i class="fa fa-angle-double-right"></i>
-						</email>
-						administrator.
-					</li>
-				</li>
+				If you have any questions, send an email to our
+				<email><a href="mailto:bigastora@gmail.com">administrator.</email>
+			</p>
+				</div>
+				</div>
 			{% endif %}
 		</div>
 	{% endblock %}

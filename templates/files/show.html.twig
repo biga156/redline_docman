@@ -1,63 +1,161 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Files
+{% block title %}
+	Files
 {% endblock %}
 
 {% block body %}
+	{# NOTE:aria descriptions: #}
+	<div id="orderby-hint" aria-hidden="false" hidden="true">
+		Click to reorder
+	</div>
+	<div id="info_button-hint" aria-hidden="false" hidden="true">
+		Info button
+	</div>
+	<div id="file_button-hint" aria-hidden="false" hidden="true">
+		Click to download this file. If the browser supports the format, clicking the button will open the file.
+	</div>
+	{# NOTE:end of aria descriptions: #}
+	<br>
+	<div>
+		<h1 class="text-center">
+			File details
+		</h1>
+	</div>
+	<br>
+	<div class="card">
+
+		<button class="btn btn-primary" aria-describedby="file_button-hint">
+			<div class="card-header text-center bg-primary">
+				<h2>
+					<abbr title="Clict to download this file. If the browser supports the format, clicking the button will open the file.">
+						<a href="{{ path('download_action', {'file':file.id})}}">
+							{{ file.name }}
+						</a>
+					</abbr>
+				</h2>
+			</div>
+		</button>
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>
+						<h6>
+							Id
+						</h6>
+					</th>
+					<td>
+						<button class="btn btn-secondary" aria-describedby="info_button-hint">
+							{{ file.id }}
+						</button>
+					</td>
+				</tr>
+
+				<tr>
+					<th>
+						<h6>
+							Description
+						</h6>
+					</th>
+					<td>
+						<button class="btn btn-secondary" aria-describedby="info_button-hint">
+							{{ file.description }}
+						</button>
+					</td>
+				</tr>
+
+				<tr>
+					<th>
+						<h6>
+							Extension
+						</h6>
+					</th>
+
+					{% if file.extension== "application/pdf" or file.extension=="application/x-pdf" %}
+						<td>
+							<button class="btn btn-secondary" aria-describedby="info_button-hint">
+								pdf
+							</button>
+						</td>
+					{% elseif file.extension == "application/msword" or file.extension == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" %}
+						<td>
+							<buttn class="btn btn-secondary" aria-describedby="info_button-hint">
+								doc/docx
+							</buttn>
+						</td>
+					{% elseif file.extension == "application/vnd.oasis.opendocument.text"%}
+						<td>
+							<button class="btn btn-secondary" aria-describedby="info_button-hint">
+								Open Document Format
+							</button>
+						</td>
+					{% else %}
+						<td>
+							<button class="btn btn-secondary" aria-describedby="info_button-hint">
+								{{ file.extension }}
+							</button>
+						</td>
+					{% endif %}
+
+				</tr>
+				<tr>
+					<th>
+						<h6>
+							Size
+						</h6>
+					</th>
+					{% if (file.size/1024)>1024 %}
+						<td>
+							<button class="btn btn-secondary" aria-describedby="info_button-hint">
+								{{ ((file.size/1024)/1024) | number_format(2)  }}
+								MB
+							</button>
+						</td>
+					{% else %}
+						<td>
+							<button_label class="btn btn-secondary" aria-describedby="info_button-hint">
+								{{ (file.size/1024) | number_format(2)  }}
+								KB
+							</button>
+						</td>
+					{% endif %}
+
+				</tr>
+				<tr>
+					<th>
+						Type
+					</th>
+					<td>
+						<button class="btn btn-link" aria-describedby="info_button-hint">
+							{{ file.type }}
+						</button>
+					</td>
+				</tr>
+				{#<tr>
+								<th>Quickview</th>
+								Example:
+								<td><img src="{{ vich_uploader_asset(file, 'file') }}" width="50px"></td>
+							</tr>#}
 
 
-	<h1>Files</h1>
-
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Id</th>
-				<td>{{ file.id }}</td>
-			</tr>
-			<tr>
-				<th>Name</th>
-				<td>{{ file.name }}</td>
-				<td><a href= "{{ path('download_action', {'file':file.id})}}">Download</a></td>
-				
-			</tr>
-			<tr>
-				<th>Description</th>
-				<td><article>{{ file.description }}</article></td>
-			</tr>
-			<tr>
-				<th>Path</th>
-				<td>{{ file.path }}</td>
-			</tr>
-			<tr>
-				<th>Extension</th>
-				<td>{{ file.extension }}</td>
-			</tr>
-			<tr>
-				<th>Size</th>
-				<td>{{ file.size }}</td>
-			</tr>
-			<tr>
-				<th>Type</th>
-				<td>{{ file.type }}</td>
-			</tr>
-			<tr>
-				<th>Quickview</th>
-				{#Example:#}
-				{#<td><img src="{{ vich_uploader_asset(documents, 'file') }}" width="50px"></td>#}
-			</tr>
-
-
-		</tbody>
-	</table>
-
+			</tbody>
+		</table>
+	</div>
 	{% if file.documents  %}
-		{#!error handling#}
-		<a href="{{ path('files_index',{doc:file.documents.id}) }}">back to list</a>
-	{% else %}
-		<a href="{{ path('files_index',{doc:0}) }}">back to list</a>
-	{% endif %}
-	{# NOTE:I don't need it in this step, but in the next step ...#}
-	{#<a href="{{ path('files_edit', {'id': file.id}, {'doc':file.documents.id}) }}">edit</a>#}
 
-	{{ include('files/_delete_form.html.twig') }}
+		<button class="btn btn-primary">
+			<a href="{{ path('files_index',{doc:file.documents.id}) }}">
+				back to list
+			</a>
+		</button>
+	{% else %}
+		<button class="btn btn-primary">
+			<a href="{{ path('files_index',{doc:0}) }}">
+				back to list
+			</a>
+		</button>
+	{% endif %}
+	<p>
+		{{ include('files/_delete_form.html.twig') }}
+	</p>
 {% endblock %}

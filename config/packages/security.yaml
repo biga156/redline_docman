@@ -50,6 +50,6 @@ security:
   # Un administrateur sera également USER_TEMP et donc USER
 
   role_hierarchy:
-    ROLE_USER_TEMP: ROLUSER_DELETED
+    ROLE_USER_TEMP: ROLUSER_DISABLED
     ROLE_USER: ROLE_USER_TEMP
     ROLE_ADMIN: ROLE_USER
