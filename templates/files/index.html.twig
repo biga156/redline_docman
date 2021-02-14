@@ -45,7 +45,8 @@
 	 </div>
 
 	<table class="table display" id="lstindex">
-		<thead>
+		{# NOTE: thead with integrated searching and ordering #}
+		{#<thead>
 			<tr class="table-primary">
 
 				<th>
@@ -71,6 +72,27 @@
 						<option value="document">Document</option>
 						<option value="audio">Audio</option>
 					</select>
+				</th>
+				<th>actions</th>
+			</tr>
+		</thead>#}
+		{# NOTE:thead just with ordering #}
+		<thead>
+			<tr class="table-primary">
+				<th>
+					<abbr title="Click to reorder">Name</abbr><br>
+				</th>
+				<th>
+					<abbr title="Click to reorder">Document</abbr><br>
+				</th>
+				<th>
+					<abbr title="Click to reorder">Extension</abbr><br>
+				</th>
+				<th>
+					<abbr title="Click to reorder">Size</abbr><br>
+				</th>
+				<th>
+					<abbr title="Click to reorder">Type</abbr><br>
 				</th>
 				<th>actions</th>
 			</tr>
@@ -154,7 +176,7 @@
 
 {% endblock %}
 {% block javascripts %}
-	<script>{% include "_scripts/TableFilter.js" %}</script>
+	{# NOTE:for multisearch thead: <script>{% include "_scripts/TableFilter.js" %}</script>#}
 	<script>{% include "_scripts/DataTables/jquery.dataTables.min.js" %}</script>
 	<script>{% include "_scripts/DataTables/dataTable.js" %}</script>
 

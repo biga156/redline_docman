@@ -25,7 +25,8 @@
 	 </div>
 
 	<table class="table table-hover display" id="lstindex">
-		<thead>
+		{# NOTE:thead with integrated and personalised search and ordering#}
+		{#<thead>
 			<tr class="table-primary">
 				<th scope="row">
 					<abbr title="Click to reorder">Username</abbr><br>
@@ -70,6 +71,35 @@
 
 					</select>
 
+				</th>
+			</tr>
+		</thead>#}
+		{# Note: thead just with ordering #}
+		<thead>
+			<tr class="table-primary">
+				<th scope="row">
+					<abbr title="Click to reorder">Username</abbr><br>
+				</th>
+				<th scope="row">
+					<abbr title="Click to reorder">Roles</abbr><br>
+				</th>
+				<th scope="row">
+					<abbr title="Click to reorder">Created</abbr><br>
+				</th>
+				<th scope="row">
+					<abbr title="Click to reorder">Email</abbr><br>
+				</th>
+				<th scope="row">
+					<abbr title="Click to reorder">First name</abbr><br>
+				</th>
+				<th scope="row">
+					<abbr title="Click to reorder">Last name</abbr><br>
+				</th>
+				<th scope="row">
+					<abbr title="Click to reorder">Birth date</abbr><br>
+				</th>
+				<th scope="row">
+					<abbr title="Click to reorder">actions</abbr><br>
 				</th>
 			</tr>
 		</thead>
@@ -168,7 +198,7 @@
 	</button>
 {% endblock %}
 {% block javascripts %}
-	<script>{% include "_scripts/TableFilter.js" %}</script>
+	{# NOTE: for multisearch thead: <script>{% include "_scripts/TableFilter.js" %}</script>#}
 	<script>{% include "_scripts/DataTables/jquery.dataTables.min.js" %}</script>
 	<script>{% include "_scripts/DataTables/dataTable.js" %}</script>
 {% endblock %}

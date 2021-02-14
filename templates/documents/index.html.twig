@@ -45,14 +45,15 @@
         <abbr title="Here you can enable or disable the columns">Toggle column:</abbr>
 		<button class="btn btn-link toggle-vis" data-column="0" aria-describedBy="toggle_column-hint">Label</button> -
 		<button class="btn btn-link toggle-vis" data-column="1" aria-describedBy="toggle_column-hint">Keywords</button> - 
-		<button class="btn btn-link toggle-vis" data-column="2" aria-describedBy="toggle_column-hint">Audio note</button> - 
+		{#<button class="btn btn-link toggle-vis" data-column="2" aria-describedBy="toggle_column-hint">Audio note</button> -#} 
 		<button class="btn btn-link toggle-vis" data-column="3" aria-describedBy="toggle_column-hint">Validity</button> - 
 		<button class="btn btn-link toggle-vis" data-column="4" aria-describedBy="toggle_column-hint">Createc</button> - 
 		<button class="btn btn-link toggle-vis" data-column="5"aria-describedBy="toggle_column-hint">Protection</button>
 		<button class="btn btn-link toggle-vis" data-column="5"aria-describedBy="toggle_column-hint">Alarm</button>
     </div>
 	<table class="table display compact"  id="lstindex" style="table-layout: auto">
-		<thead>
+		{# NOTE:thead with multisearch and ordering #}
+		{#<thead>
 			<tr class="table-primary">
 
 				<th>
@@ -118,6 +119,38 @@
 
 				<th>delete</th>
 			</tr>
+		</thead>#}
+		{# NOTE: thead just mith ordering #}
+		<thead>
+			<tr class="table-primary">
+				<th>
+					<abbr  title="Click to reorder">Label</abbr>
+				</th>
+				<th>
+					<abbr title="Click to reorder">Keywords</abbr>
+				</th>
+				{#<th>
+					<abbr title="Click to reorder">Audio note</abbr>
+				</th>#}
+				<th>
+					<abbr title="Click to reorder">Validity</abbr>
+				</th>
+				<th>
+					<abbr title="Click to reorder">Created</abbr>
+				</th>
+				<th>
+					<abbr title="Click to reorder">Protection</abbr>
+				</th>
+				<th>
+					<abbr title="Click to reorder">Alarm</abbr>
+				</th>
+				{% if is_granted('ROLE_ADMIN') %}
+					<th>
+						<abbr title="Click to reorder">User</abbr>
+					</th>
+				{% endif %}
+				<th>delete</th>
+			</tr>
 		</thead>
 		<tbody>
 			{% for document in documents %}
@@ -138,7 +171,7 @@
 					</td>
 					
 										
-					<td>
+					{#<td>
 					{% if document.audioNote != null %}
 					<audio style="width: 80%" controls>
 						 <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/wav">
@@ -146,7 +179,7 @@
 						  <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/mp3">
 						  <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/ogg">
 						  <source src="{{asset('/upload/audionote/'~ document.audioNote)}}" type="audio/mpeg">
-						 {#<source src="{{asset(document.audioNote)}}" type="audio/wav">#}
+						 <source src="{{asset(document.audioNote)}}" type="audio/wav">
   						
 					Your browser does not support the audio element.
 					</audio>
@@ -154,7 +187,7 @@
 					{% else %}
 					<button class="btn btn-secondary" aria-describedby="info_button-hint">N/a</button>
 					{% endif %}
-					</td>
+					</td>#}
 					<td>
 
 						{% if document.validity<= "now"|date('Y-m-d') %}
@@ -245,9 +278,9 @@
 				<th>
 					Keywords
 				</th>
-				<th>
+				{#<th>
 				Audio note
-				</th>
+				</th>#}
 				<th>
 					Validity
 				</th>
@@ -278,7 +311,7 @@
 	{% endif %}
 {% endblock %}
 {% block javascripts %}
-	<script>{% include "_scripts/TableFilter.js" %}</script>
+	{# NOTE: for thead multisearching: <script>{% include "_scripts/TableFilter.js" %}</script>#}
 	<script>{% include "_scripts/DataTables/jquery.dataTables.min.js" %}</script>
 	<script>{% include "_scripts/DataTables/dataTable.js" %}</script>
 	

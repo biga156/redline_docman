@@ -8,7 +8,29 @@
 				Welcome!
 			{% endblock %}
 		</title>
-					
+		<style>
+		/* Sticky Footer Classes */
+
+html,
+body {
+  height: 100%;
+}
+
+#page-content {
+  flex: 1 0 auto;
+}
+
+#sticky-footer {
+  flex-shrink: none;
+}
+
+/* Other Classes for Page Styling */
+
+body {
+  //background: transparent;
+  //background: linear-gradient(to right, #0062E6, #33AEFF);
+}
+		</style>
 			<link href="{{asset('/styles/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css">
 			<link href="{{asset('/styles/darkly/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
 			
@@ -17,7 +39,7 @@
 			<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"> 
 			<script src="https://kit.fontawesome.com/c1d2705669.js" crossorigin="anonymous"></script>#}
 		</head>
-		<body>
+		<body class="d-flex flex-column">
 			{% include 'shared/header.html.twig' %}
  			
 			<div class="container"> {% block body %}{% endblock %}
@@ -40,9 +62,11 @@
 				{% block javascripts %}
 				{% endblock %}
 			</body>
-			{% block footer %}
-			{% include 'shared/footer.html.twig' %}
 
+			{% block footer %}
+			
+			{% include 'shared/footer2.html.twig' %}
+			
 			{% endblock %}
 			
 		</html>
